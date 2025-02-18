@@ -1,6 +1,8 @@
 \ Copyright (c) 2003 Scott Long <scottl@FreeBSD.org>
 \ Copyright (c) 2003 Aleksander Fafula <alex@fafula.com>
 \ Copyright (c) 2006-2015 Devin Teske <dteske@FreeBSD.org>
+\ Copyright 2017 Dominik Hassler <hadfl@cpan.org>
+\ Copyright 2020 OmniOS Community Edition (OmniOSce) Association.
 \ All rights reserved.
 \
 \ Redistribution and use in source and binary forms, with or without
@@ -23,49 +25,80 @@
 \ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 \ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 \ SUCH DAMAGE.
-\
 
-46 logoX ! 4 logoY ! \ Initialize logo placement defaults
+51 logoX !
+2 logoY !
+
+variable pngdebug
+0 pngdebug !
 
 : logo+ ( x y c-addr/u -- x y' )
-	2swap 2dup at-xy 2swap \ position the cursor
-	[char] @ escc! \ replace @ with Esc
-	type \ print to the screen
-	1+ \ increase y for next time we're called
+	2swap 2dup at-xy 2swap	\ position the cursor
+	[char] @ escc!		\ replace @ with Esc
+	type			\ print to the screen
+	1+			\ increase y for next time we're called
 ;
 
-: logo ( x y -- ) \ color illumos logo
+: illumos_logo ( -- )
+	pngdebug @
+	0 0 0 0		\ bottom right, no scaling
+	s" /boot/illumos-small.png"
+	fb-putimage drop
+;
 
+: asciisideart ( x y -- x y' )
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"   1011 1100                 "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"              1001 1011      "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+;
+
+: graphsideart ( x y -- x y )
+	s" term-putimage" sfind if
+		>r
+		2dup pngdebug @ -rot	( x y -- x y d x y )
+		0 26			\ end on row 26, keep aspect ratio
+	else
+		['] fb-putimage >r
+		pngdebug @
+		530 30 0 0
+	then
+	s" /boot/bytes.png"
+	r> execute
+	\ Fall-back to the ASCII version
+	invert if asciisideart then
+;
+
+: logo ( x y -- )
 	framebuffer? if
-		s" term-putimage" sfind if
-			>r over	0 swap		( x y 0 x )
-			12 0 22 		( x y 0 x 12 0 22 )
-			s" /boot/surya-logo.png"
-			r> execute if 2drop exit then
-		else
-			drop
-		then
+		s" loader_font" set_font
+		clear at-bl
+		50 1 graphsideart 2drop
+		illumos_logo
+	else
+		asciisideart
 	then
 
-	s"     @[33m,@[m                             " logo+
-	s"    @[33m,./% @[31m&@[m                         " logo+
-	s"    @[33m(****@[31m*(@[m                        " logo+
-	s"      @[33m*/*@[31m//@[m                        " logo+
-	s"      @[33m*,//@[31m/((@[m                      " logo+
-	s"        @[33m,*/@[31m/((/%@[m                   " logo+
-	s"          @[33m//@[31m/((((%@[m                 " logo+
-	s"           @[33m,*@[31m/(((((%@[m       @[33m&@[31m#///((&@[m" logo+
-	s"            @[33m./@[31m//((((((%@[m  @[31m%/(((/@[m    " logo+
-	s"             @[33m./@[31m///(((((///((,@[m      " logo+
-	s"             @[33m.*//@[31m//((((((((((@[m      " logo+
-	s"                  @[31m./((((((((/@[m      " logo+
-	s"                   @[31m(/(((((((@[m       " logo+
-	s"                   @[31m,,((((((/@[m       " logo+
-	s"                     @[31m/((((@[m         " logo+
-	s"                  @[31m%/((((@[m           " logo+
-	s"              @[33m&@[31m%#/((((.@[m            " logo+
-	s"            @[33m,@[31m(@[m @[31m,/@[m @[31m/(/@[m              " logo+
-	s"                @[31m,/@[m                 " logo+
-
+	at-bl
 	2drop
 ;
+
