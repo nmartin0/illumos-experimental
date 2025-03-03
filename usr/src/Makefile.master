@@ -37,6 +37,9 @@
 #
 # Makefile.master, global definitions for system source
 #
+
+PROJECT = 	illumos-surya
+
 ROOT=		/proto
 
 #
@@ -949,8 +952,8 @@ UTS_LABEL=	$(RELEASE)
 # bootbanner_expand_template() for more details about the template string
 # format.
 #
-BOOTBANNER1=	^o Version ^v ^w-bit
-BOOTBANNER2=
+BOOTBANNER1=	Surya 2025.02 
+BOOTBANNER2=    Assembled 03 March 2025
 BOOTBANNER3=
 BOOTBANNER4=
 BOOTBANNER5=
@@ -983,7 +986,7 @@ PKGARCHIVE=$(SRC)/../../packages/$(MACH)/nightly$(PKGARCHIVESUFFIX)
 # update an image to the resulting repositories, this must match the
 # publisher name provided to "pkg set-publisher."
 #
-PKGPUBLISHER_REDIST=	on-nightly
+PKGPUBLISHER_REDIST=	surya
 PKGPUBLISHER_NONREDIST=	on-extra
 
 # Allow suffix rules like the below for .S as well as .s

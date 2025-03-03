@@ -88,19 +88,22 @@ export ENABLE_SMATCH=1
 
 # Comment this out to disable support for SMB printing, i.e. if you
 # don't want to bother providing the CUPS headers this needs.
-export ENABLE_SMB_PRINTING=
+#export ENABLE_SMB_PRINTING=
 
 # If your distro uses certain versions of Perl, make sure either Makefile.master
 # contains your new defaults OR your .env file sets them.
 # These are how you would override for building on OmniOS r151028, for example.
-#export PERL_VERSION=5.28
+PERL='/usr/perl5/bin/perl'
+export PERL_VERSION="$($PERL -e 'print $&V =~ /^v(5\.[^\.]*).*$/')"
 #export PERL_VARIANT=-thread-multi
-#export PERL_PKGVERS=
+export PERL_PKGVERS="$($PERL -e 'print "-", $^V =~ /^v(5)\.([^\.]*).*$/')"
+export PERL_ARCH="$($PERL -e -Mconfig -e 'print $Config{archname}')"
+export PERL_ARCH64="$PERL_ARCH"
 
 # To disable building of the 32-bit or 64-bit perl modules (or both),
 # uncomment these lines:
-#export BUILDPERL32='#'
-#export BUILDPERL64='#'
+export BUILDPERL32="$($PERL -MConfig -e 'print $Config{ptrsize} == 4 ? "" : "#"')"
+export BUILDPERL64="$($PERL -Mconfig -e 'print $Config{ptrsize} == 8 ? "" : "#"')"
 
 # If your distro uses certain versions of Python, make sure either
 # Makefile.master contains your new defaults OR your .env file sets them.
@@ -122,7 +125,7 @@ export ENABLE_SMB_PRINTING=
 #	-DDEFAULT_ANSI_BACKGROUND=ANSI_COLOR_WHITE"
 
 # Set if your distribution has different package versioning
-#export PKGVERS_BRANCH=2018.0.0.17900
+export PKGVERS_BRANCH=9999.99.0.0
 
 # Skip Java 11 builds on distributions that don't support it
 #export BLD_JAVA_11=
