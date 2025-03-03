@@ -53,6 +53,13 @@ FILES +=	illumos-logo.png
 FILES +=	illumos-brand.png
 FILES +=	loader.rc
 
+# Surya additions
+FORTH +=	brand-surya.4th
+FORTH +=	logo-surya.4th
+FILES += 	surya-bytes.png
+FILES +=	surya.png
+FILES +=	twobitsahead.png
+
 all clean clobber:
 
 install: $(ROOT_BOOT_DEFAULTS) $(ROOT_BOOT_FORTH) $(ROOTBOOTFILES) \
