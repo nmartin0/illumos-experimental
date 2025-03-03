@@ -93,11 +93,11 @@ export ENABLE_SMATCH=1
 # If your distro uses certain versions of Perl, make sure either Makefile.master
 # contains your new defaults OR your .env file sets them.
 # These are how you would override for building on OmniOS r151028, for example.
-PERL='/usr/perl5/bin/perl'
-export PERL_VERSION="$($PERL -e 'print $^V =~ /^v(5\.[^\.]*).*$/')"
+PERL='/usr/bin/perl'
+export PERL_VERSION=5.40
 #export PERL_VARIANT=-thread-multi
-export PERL_PKGVERS="$($PERL -e 'print "-", $^V =~ /^v(5)\.([^\.]*).*$/')"
-export PERL_ARCH="$($PERL -MConfig -e 'print $Config{archname}')"
+export PERL_PKGVERS=-540
+export PERL_ARCH=i86pc-solaris-thread-multi-64
 export PERL_ARCH64="$PERL_ARCH"
 
 # To disable building of the 32-bit or 64-bit perl modules (or both),
