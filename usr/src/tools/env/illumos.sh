@@ -93,6 +93,7 @@ export ENABLE_SMATCH=1
 # If your distro uses certain versions of Perl, make sure either Makefile.master
 # contains your new defaults OR your .env file sets them.
 # These are how you would override for building on OmniOS r151028, for example.
+PERL='/usr/perl5/bin/perl'
 export PERL_VERSION=5.40
 #export PERL_VARIANT=-thread-multi
 export PERL_PKGVERS="$($PERL -e 'print "-", $^V =~ /^v(5)\.([^\.]*).*$/')"
