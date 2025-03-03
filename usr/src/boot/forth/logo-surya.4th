@@ -48,27 +48,27 @@ variable pngdebug
 
 : asciisideart ( x y -- x y' )
 	s"                             "        logo+
-	s"                             "        logo+
-	s"                             "        logo+
-	s"   1011 1100                 "        logo+
-	s"                             "        logo+
+	s"    0101 0011                "        logo+
 	s"                             "        logo+
 	s"                             "        logo+
 	s"                             "        logo+
 	s"                             "        logo+
-	s"                             "        logo+
-	s"                             "        logo+
-	s"              1001 1011      "        logo+
-	s"                             "        logo+
+	s"                0111 0101    "        logo+
 	s"                             "        logo+
 	s"                             "        logo+
 	s"                             "        logo+
 	s"                             "        logo+
+	s"    0111 0010                "        logo+
 	s"                             "        logo+
 	s"                             "        logo+
 	s"                             "        logo+
 	s"                             "        logo+
+	s"                0111 1001    "        logo+
 	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"                             "        logo+
+	s"    0110 0001                "        logo+
 	s"                             "        logo+
 ;
 
@@ -82,7 +82,7 @@ variable pngdebug
 		pngdebug @
 		530 30 0 0
 	then
-	s" /boot/bytes.png"
+	s" /boot/surya-bytes.png"
 	r> execute
 	\ Fall-back to the ASCII version
 	invert if asciisideart then
@@ -93,7 +93,7 @@ variable pngdebug
 		s" loader_font" set_font
 		clear at-bl
 		50 1 graphsideart 2drop
-		illumos_logo
+		illumos_logo.png
 	else
 		asciisideart
 	then
