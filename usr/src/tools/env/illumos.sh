@@ -94,16 +94,16 @@ export ENABLE_SMATCH=1
 # contains your new defaults OR your .env file sets them.
 # These are how you would override for building on OmniOS r151028, for example.
 PERL='/usr/perl5/bin/perl'
-export PERL_VERSION="$($PERL -e 'print $&V =~ /^v(5\.[^\.]*).*$/')"
+export PERL_VERSION="$($PERL -e 'print $^V =~ /^v(5\.[^\.]*).*$/')"
 #export PERL_VARIANT=-thread-multi
 export PERL_PKGVERS="$($PERL -e 'print "-", $^V =~ /^v(5)\.([^\.]*).*$/')"
-export PERL_ARCH="$($PERL -e -Mconfig -e 'print $Config{archname}')"
+export PERL_ARCH="$($PERL -MConfig -e 'print $Config{archname}')"
 export PERL_ARCH64="$PERL_ARCH"
 
 # To disable building of the 32-bit or 64-bit perl modules (or both),
 # uncomment these lines:
 export BUILDPERL32="$($PERL -MConfig -e 'print $Config{ptrsize} == 4 ? "" : "#"')"
-export BUILDPERL64="$($PERL -Mconfig -e 'print $Config{ptrsize} == 8 ? "" : "#"')"
+export BUILDPERL64="$($PERL -MConfig -e 'print $Config{ptrsize} == 8 ? "" : "#"')"
 
 # If your distro uses certain versions of Python, make sure either
 # Makefile.master contains your new defaults OR your .env file sets them.
