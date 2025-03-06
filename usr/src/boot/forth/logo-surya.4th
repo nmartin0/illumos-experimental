@@ -93,7 +93,7 @@ variable pngdebug
 		s" loader_font" set_font
 		clear at-bl
 		50 1 graphsideart 2drop
-		twobitsahead.png
+		illumos_logo
 	else
 		asciisideart
 	then
